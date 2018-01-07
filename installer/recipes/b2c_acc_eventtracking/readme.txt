@@ -1,0 +1,1 @@
+Desktop B2C Accelerator with B2C Checkout Addon and analytics addons

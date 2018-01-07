@@ -1,0 +1,29 @@
+def config = {
+    localProperties {
+        property 'cockpit.ytestid.enabled', 'true'
+    }
+
+    extensions {
+        extName 'backoffice'
+    }
+}
+
+task setup << {
+    apply plugin: 'installer-platform-plugin'
+    def thePlatform = platform(config)
+    thePlatform.setup()
+}
+
+task initialize << {
+    apply plugin: 'installer-platform-plugin'
+    def thePlatform = platform(config)
+    thePlatform.build()
+    thePlatform.initialize()
+}
+
+task start << {
+    apply plugin: 'installer-platform-plugin'
+    def thePlatform = platform(config)
+    thePlatform.start()
+}
+

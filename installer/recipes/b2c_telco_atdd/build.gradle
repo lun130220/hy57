@@ -1,0 +1,80 @@
+task setup << {
+	apply plugin: 'installer-platform-plugin'
+	apply plugin: 'installer-addon-plugin'
+
+	def pl = platformFactory.createPlatform()
+
+	pl.extensions {
+		extensionNames (
+			'acceleratorcms',
+			'addonsupport',
+			'b2ctelcocheckoutaddon',
+			'b2ctelcocockpits',
+			'b2ctelcostore',
+			'b2ctelcostorefront',
+			'cissubscriptionatddtests',
+			'commercesearchbackoffice',
+			'commerceservicesbackoffice',
+			'entitlementatddtests',
+			'entitlementstorefront',
+			'mcc',
+			'solrfacetsearchbackoffice',
+			'solrserver',
+			'subscriptionatddtests',
+			'subscriptionbackoffice',
+			'subscriptionserviceshmc',
+			'subscriptionstorefront',
+			'yacceleratorcockpits',
+			'yacceleratorcore',
+			'yacceleratorfulfilmentprocess',
+			'yacceleratorstorefront',
+			'ycommercewebservices'
+
+		)
+	}
+
+	pl.localProperties {
+		properties (
+			"cis.client.subscription.mock": "true",
+			"kernel.events.cluster.jgroups.channel": "disable"
+		)
+	}
+
+	pl.setup()
+
+	pl.project.addons {
+		names "b2ctelcostorefront,b2ctelcocheckoutaddon"
+		b2c "yacceleratorstorefront"
+		platform pl
+	}
+	pl.project.addons {
+		names "entitlementstorefront"
+		b2c "yacceleratorstorefront"
+		platform pl
+	}
+	pl.project.addons {
+		names 'subscriptionstorefront'
+		b2c 'yacceleratorstorefront'
+		platform pl
+	}
+}
+
+task initialize << {
+	apply plugin: 'installer-platform-plugin'
+	def platform = platformFactory.createPlatform()
+	platform.build()
+	platform.initialize()
+}
+
+task start << {
+	apply plugin: 'installer-platform-plugin'
+	def platform = platformFactory.createPlatform()
+	platform.startInBackground()
+}
+
+task stop << {
+	apply plugin: 'installer-platform-plugin'
+	def platform = platformFactory.createPlatform()
+	platform.stopInBackground()
+}
+

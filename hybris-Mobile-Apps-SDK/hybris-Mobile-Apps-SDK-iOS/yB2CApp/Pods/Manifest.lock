@@ -1,0 +1,175 @@
+PODS:
+  - AFNetworking (2.5.1):
+    - AFNetworking/NSURLConnection (= 2.5.1)
+    - AFNetworking/NSURLSession (= 2.5.1)
+    - AFNetworking/Reachability (= 2.5.1)
+    - AFNetworking/Security (= 2.5.1)
+    - AFNetworking/Serialization (= 2.5.1)
+    - AFNetworking/UIKit (= 2.5.1)
+  - AFNetworking/NSURLConnection (2.5.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/NSURLSession (2.5.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (2.5.1)
+  - AFNetworking/Security (2.5.1)
+  - AFNetworking/Serialization (2.5.1)
+  - AFNetworking/UIKit (2.5.1):
+    - AFNetworking/NSURLConnection
+    - AFNetworking/NSURLSession
+  - CocoaLumberjack (1.8.1):
+    - CocoaLumberjack/Extensions (= 1.8.1)
+  - CocoaLumberjack/Core (1.8.1)
+  - CocoaLumberjack/Extensions (1.8.1):
+    - CocoaLumberjack/Core
+  - Expecta (0.4.2)
+  - libextobjc (0.4.1):
+    - libextobjc/EXTADT (= 0.4.1)
+    - libextobjc/EXTConcreteProtocol (= 0.4.1)
+    - libextobjc/EXTKeyPathCoding (= 0.4.1)
+    - libextobjc/EXTNil (= 0.4.1)
+    - libextobjc/EXTSafeCategory (= 0.4.1)
+    - libextobjc/EXTScope (= 0.4.1)
+    - libextobjc/EXTSelectorChecking (= 0.4.1)
+    - libextobjc/EXTSynthesize (= 0.4.1)
+    - libextobjc/NSInvocation+EXT (= 0.4.1)
+    - libextobjc/NSMethodSignature+EXT (= 0.4.1)
+    - libextobjc/RuntimeExtensions (= 0.4.1)
+    - libextobjc/UmbrellaHeader (= 0.4.1)
+  - libextobjc/EXTADT (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTConcreteProtocol (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTKeyPathCoding (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTNil (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTSafeCategory (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTScope (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTSelectorChecking (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/EXTSynthesize (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/NSInvocation+EXT (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/NSMethodSignature+EXT (0.4.1):
+    - libextobjc/RuntimeExtensions
+  - libextobjc/RuntimeExtensions (0.4.1)
+  - libextobjc/UmbrellaHeader (0.4.1)
+  - Mantle (1.5.4):
+    - Mantle/extobjc (= 1.5.4)
+  - Mantle/extobjc (1.5.4)
+  - MMDrawerController (0.5.7):
+    - MMDrawerController/Core (= 0.5.7)
+    - MMDrawerController/MMDrawerBarButtonItem (= 0.5.7)
+    - MMDrawerController/MMDrawerVisualStates (= 0.5.7)
+    - MMDrawerController/Subclass (= 0.5.7)
+  - MMDrawerController/Core (0.5.7)
+  - MMDrawerController/MMDrawerBarButtonItem (0.5.7):
+    - MMDrawerController/Core
+  - MMDrawerController/MMDrawerVisualStates (0.5.7):
+    - MMDrawerController/Core
+  - MMDrawerController/Subclass (0.5.7):
+    - MMDrawerController/Core
+  - MyEnvironmentConfig (1.0.0)
+  - OLGhostAlertView (1.8.1)
+  - OMGHTTPURLRQ (2.1):
+    - OMGHTTPURLRQ/RQ (= 2.1)
+  - OMGHTTPURLRQ/FormURLEncode (2.1)
+  - OMGHTTPURLRQ/RQ (2.1):
+    - OMGHTTPURLRQ/FormURLEncode
+    - OMGHTTPURLRQ/UserAgent
+  - OMGHTTPURLRQ/UserAgent (2.1)
+  - PromiseKit (1.5.0):
+    - PromiseKit/CALayer (= 1.5.0)
+    - PromiseKit/NSNotificationCenter (= 1.5.0)
+    - PromiseKit/NSURLConnection (= 1.5.0)
+    - PromiseKit/Pause (= 1.5.0)
+    - PromiseKit/UIActionSheet (= 1.5.0)
+    - PromiseKit/UIAlertView (= 1.5.0)
+    - PromiseKit/UIView (= 1.5.0)
+    - PromiseKit/UIViewController (= 1.5.0)
+    - PromiseKit/Until (= 1.5.0)
+    - PromiseKit/When (= 1.5.0)
+  - PromiseKit-AFNetworking (0.1.7):
+    - AFNetworking (~> 2.0)
+    - PromiseKit/Promise (~> 1.5)
+    - PromiseKit/When
+  - PromiseKit/CALayer (1.5.0):
+    - PromiseKit/Promise
+  - PromiseKit/NSNotificationCenter (1.5.0):
+    - PromiseKit/Promise
+  - PromiseKit/NSURLConnection (1.5.0):
+    - OMGHTTPURLRQ
+    - PromiseKit/Promise
+  - PromiseKit/Pause (1.5.0):
+    - PromiseKit/Promise
+  - PromiseKit/Promise (1.5.0)
+  - PromiseKit/UIActionSheet (1.5.0):
+    - PromiseKit/Promise
+  - PromiseKit/UIAlertView (1.5.0):
+    - PromiseKit/Promise
+  - PromiseKit/UIView (1.5.0):
+    - PromiseKit/Promise
+  - PromiseKit/UIViewController (1.5.0):
+    - PromiseKit/Promise
+  - PromiseKit/Until (1.5.0):
+    - PromiseKit/Promise
+    - PromiseKit/When
+  - PromiseKit/When (1.5.0):
+    - PromiseKit/Promise
+  - Specta (0.5.0)
+  - yCommerceLibrary (5.6):
+    - AFNetworking (= 2.5.1)
+    - CocoaLumberjack (= 1.8.1)
+    - libextobjc (= 0.4.1)
+    - Mantle (= 1.5.4)
+    - MyEnvironmentConfig
+    - PromiseKit (= 1.5)
+    - PromiseKit-AFNetworking (~> 0.1)
+  - yLocationLibrary (5.6)
+  - yScanningLibrary (5.6)
+
+DEPENDENCIES:
+  - AFNetworking (= 2.5.1)
+  - Expecta (~> 0.3)
+  - MMDrawerController (~> 0.5.7)
+  - OLGhostAlertView (~> 1.8.1)
+  - PromiseKit (= 1.5)
+  - PromiseKit-AFNetworking (~> 0.1)
+  - Specta (~> 0.3)
+  - yCommerceLibrary (from `../yCommerceLibrary`)
+  - yLocationLibrary (from `../yLocationLibrary`)
+  - yScanningLibrary (from `../yScanningLibrary`)
+
+EXTERNAL SOURCES:
+  yCommerceLibrary:
+    :path: ../yCommerceLibrary
+  yLocationLibrary:
+    :path: ../yLocationLibrary
+  yScanningLibrary:
+    :path: ../yScanningLibrary
+
+SPEC CHECKSUMS:
+  AFNetworking: 10e85a00bb0f475124e4ff2677bf15693b2c1523
+  CocoaLumberjack: 555162681b9c20a271909b235c43f6bbd5d512e1
+  Expecta: 78b4e8b0c8291fa4524d7f74016b6065c2e391ec
+  libextobjc: a650fc1bf489a3d3a9bc2e621efa3e1006fc5471
+  Mantle: 60acd0cd363e27d945bda0a6b8e90577112d28f3
+  MMDrawerController: 7a4cf8e25596bf2434e03ce50d22a8608ddee6a1
+  MyEnvironmentConfig: db8aafd6c178d3ac5f17f06a6e10ea0dba2fdc4a
+  OLGhostAlertView: 3eb3179a2be9c3a764831d0f958c36bb8ea38b53
+  OMGHTTPURLRQ: f8c515dfd2f57a5d74c710978f600231f52afec5
+  PromiseKit: 66308afa36e1f7dba6d53721c359e4d074a895b4
+  PromiseKit-AFNetworking: 364d4cb942a7278f5219c62dc822867655954a8f
+  Specta: eb90708ed77569bbda089f8ead10bb99b8e9489e
+  yCommerceLibrary: 32452cedb9270dbed5e4f1cf9c6177ed05494887
+  yLocationLibrary: 84bc10efa38b7a275b734ea0d65364c5f4d10e4d
+  yScanningLibrary: ff7d5e069170d7fecc59010a5a02b44378685548
+
+COCOAPODS: 0.36.0

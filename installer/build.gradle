@@ -1,0 +1,127 @@
+import org.gradle.logging.StyledTextOutput
+import org.gradle.logging.StyledTextOutputFactory
+import org.gradle.logging.internal.LoggingOutputInternal
+
+project.subprojects.each { subproject ->
+    subproject.buildscript.dependencies {
+        delegate.classpath(fileTree(dir: "${rootProject.projectDir}/libs", include: '*.jar'))
+    }
+}
+
+subprojects {
+
+    repositories {
+        flatDir {
+            dirs "${rootProject.projectDir}/libs"
+        }
+    }
+
+    buildscript {
+        repositories {
+            flatDir {
+                dirs "${rootProject.projectDir}/libs"
+            }
+        }
+    }
+}
+
+if (project.hasProperty('logToFile')) {
+    def tstamp = new Date().format('yyyy-MM-dd_HH-mm-ss')
+    def buildLog = new File("${rootProject.rootDir}/logs/${tstamp}_build.log")
+
+    gradle.services.get(LoggingOutputInternal).addStandardOutputListener(new StandardOutputListener() {
+        void onOutput(CharSequence output) {
+            buildLog << output
+        }
+    })
+
+    gradle.services.get(LoggingOutputInternal).addStandardErrorListener(new StandardOutputListener() {
+        void onOutput(CharSequence output) {
+            buildLog << output
+        }
+    })
+}
+
+subprojects {
+    afterEvaluate { subproject ->
+        if (verifySubProject(subproject)) {
+
+            def setupTask = subproject.tasks.setup
+            def initializeTask = subproject.tasks.initialize
+            def startTask = subproject.tasks.start
+
+            setupTask.description = 'Setups platform (writes configuration into local.properties, localextensions.xml)'
+            initializeTask.description = 'Initializes platform fully'
+            startTask.description = 'Starts platform (either interactively or in background)'
+
+            if (startTask && initializeTask) {
+                startTask.mustRunAfter initializeTask
+            }
+
+            if (initializeTask && setupTask) {
+                initializeTask.mustRunAfter setupTask
+            }
+
+            def performTaskDependencies = []
+
+            if (setupTask) {
+                performTaskDependencies << setupTask
+            }
+
+            if (initializeTask) {
+                performTaskDependencies << initializeTask
+            }
+
+            if (startTask) {
+                performTaskDependencies << startTask
+            }
+
+            if (performTaskDependencies) {
+                Task runTask = subproject.task('perform')
+                runTask.description = 'Performs setup, initialize and start, in this order'
+                runTask.dependsOn = performTaskDependencies
+            }
+        }
+    }
+}
+
+boolean verifySubProject(def subProject) {
+    def taskNames = subProject.tasks*.name
+    if (!taskNames.contains('setup') || !taskNames.contains('initialize') || !taskNames.contains('start')) {
+        return false
+    }
+
+    true
+}
+
+task listRecipes << {
+    def out = services.get(StyledTextOutputFactory).create('logger')
+    out.withStyle(StyledTextOutput.Style.Header).println 'Available recipes:'
+    println ''
+
+    int idx = 1;
+
+    file("${rootProject.rootDir}/recipes").listFiles().each { File recipeDir ->
+
+        if (!recipeDir.directory) {
+            return
+        }
+
+        String recipeDirName = recipeDir.name
+
+        out.withStyle(StyledTextOutput.Style.Info).println "${idx}) ${recipeDirName}"
+
+        out.withStyle(StyledTextOutput.Style.Info).println '    Description:'
+        File readmeFile = new File("${rootProject.rootDir}/recipes/${recipeDirName}/readme.txt")
+        if (readmeFile.exists()) {
+            readmeFile.eachLine { line ->
+                println "    $line"
+            }
+        } else {
+            out.withStyle(StyledTextOutput.Style.Failure).println '    Missing description.'
+        }
+
+        idx++;
+    }
+
+}

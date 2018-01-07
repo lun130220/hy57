@@ -1,0 +1,19 @@
+apply plugin: 'installer-platform-plugin'
+def platformOnly = platformFactory.createPlatform()
+
+task setup << {
+    platformOnly.setup()
+}
+
+task initialize << {
+    platformOnly.build()
+    platformOnly.initialize()
+}
+
+task start << {
+    platformOnly.startInBackground()
+}
+
+task stop(description: 'Stops platform which was started in background by "start" task') << {
+    platformOnly.stopInBackground()
+}

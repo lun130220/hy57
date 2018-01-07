@@ -1,0 +1,82 @@
+task setup << {
+	apply plugin: 'installer-platform-plugin'
+	apply plugin: 'installer-addon-plugin'
+
+	def pl = platformFactory.createPlatform()
+
+	pl.extensions {
+		extensionNames (
+			'admincockpit',
+			'backoffice',
+			'cockpit',
+			'hmc',
+			'mcc',
+			'platformhmc',
+			'addonsupport',
+			'electronicsstore',
+			'apparelstore',
+			'acceleratorcms',
+			'acceleratorfacades',
+			'acceleratorservices',
+			'acceleratorstorefrontcommons',
+			'basecommerce',
+			'btg',
+			'cms2',
+			'cms2lib',
+			'commercefacades',
+			'commerceservices',
+			'customerreview',
+			'ldap',
+			'payment',
+			'promotions',
+			'solrfacetsearch',
+			'solrfacetsearchhmc',
+  			'solrserver',
+			'ticketsystem',
+			'voucher',
+			'cmscockpit',
+			'yacceleratorcore',
+			'yacceleratorfacades',
+			'yacceleratorfulfilmentprocess',
+			'yacceleratorinitialdata',
+			'yacceleratorstorefront',
+			'yacceleratorcockpits',
+			'yaddon',
+			'assistedservicestorefront'
+		)
+	}
+
+	pl.localProperties {
+		properties (
+			"cis.client.subscription.mock": "true",
+		)
+	}
+
+	pl.setup()
+
+	pl.project.addons {
+		names "assistedservicestorefront"
+		b2c "yacceleratorstorefront"
+		platform pl
+	}
+}
+
+task initialize << {
+	apply plugin: 'installer-platform-plugin'
+	def platform = platformFactory.createPlatform()
+	platform.build()
+	platform.initialize()
+}
+
+task start << {
+	apply plugin: 'installer-platform-plugin'
+	def platform = platformFactory.createPlatform()
+	platform.startInBackground()
+}
+
+task stop << {
+	apply plugin: 'installer-platform-plugin'
+	def platform = platformFactory.createPlatform()
+	platform.stopInBackground()
+}
+

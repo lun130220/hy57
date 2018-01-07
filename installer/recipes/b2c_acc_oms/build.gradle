@@ -1,0 +1,124 @@
+apply plugin: 'installer-platform-plugin'
+
+  buildscript {
+      repositories {
+          mavenLocal()
+          mavenCentral()
+      }
+
+      dependencies {
+      }
+  }
+
+ext {
+    workDir = "./work"
+}
+
+
+def config = {
+    localProperties {
+        '# place your custom properties into this file instead of modifying the project.properties'
+        '# all properties in this file have higher priority and will overwrite the platform/project.properties settings.'
+
+        property 'mykey' , 'myvalue'
+        property '#hac.webroot' , '/hac'
+      
+        '# using higher memory settings (4G heap and 512 permgen) to prevent out of memory issues on tcserver'
+        property 'tomcat.generaloptions' , '-Xmx4096M -XX:-UseLoopPredicate -XX:MaxPermSize=512M -XX:+HeapDumpOnOutOfMemoryError -ea -Dcom.sun.management.jmxremote -Dcom.sun.management.jmxremote.authenticate=false -Dcom.sun.management.jmxremote.ssl=false -Dorg.tanukisoftware.wrapper.WrapperManager.mbean=true -Djava.endorsed.dirs="%CATALINA_HOME%/lib/endorsed" -Dcatalina.base=%CATALINA_BASE% -Dcatalina.home=%CATALINA_HOME% -Dfile.encoding=UTF-8 -Dlog4j.configuration=log4j_init_tomcat.properties -Djava.util.logging.config.file=jdk_logging.properties -Djava.io.tmpdir="${HYBRIS_TEMP_DIR}"'
+
+
+        property 'standalone.javaoptions' , '-Xmx2040M -XX:MaxPermSize=512M -XX:+HeapDumpOnOutOfMemoryError -ea -XX:-UseLoopPredicate'
+
+        '###########################################################'
+        '#'
+        '#  custom properties needed for QA tests'
+        '#'
+        '###########################################################'
+
+		property 'instore.cockpit.ytestid.enabled' , 'true'
+		property 'yb2bacceleratorstorefront.testIds.enable' , 'true'
+		property 'yacceleratorstorefront.testIds.enable' , 'true'
+		property 'cockpit.default.useTestIds' , 'true'
+		property 'cockpit.ytestid.enabled' , 'true'
+		property 'acceleratorstorefront.testIds.enable' , 'true'
+		property 'backoffice.cockpit.ytestid.enabled' , 'true'
+	}
+
+    extensions {
+        	extName 'ldap'
+		extName 'virtualjdbc'
+		extName 'springintegrationlibs'
+		extName 'hmc'
+		extName 'voucher'
+		extName 'platformhmc'
+		extName 'promotions'
+		extName 'customerreview'
+		extName 'backoffice'
+		extName 'cockpit'
+		extName 'admincockpit'
+		extName 'reportcockpit'
+		extName 'productcockpit'
+		extName 'solrfacetsearch'
+		extName 'basecommerce'
+		extName 'cms2'
+		extName 'cms2lib'
+		extName 'btg'
+		extName 'ticketsystem'
+		extName 'payment'
+		extName 'cmscockpit'
+		extName 'solrfacetsearchhmc'
+		extName 'commerceservices'
+		extName 'commercewebservicescommons'
+		extName 'acceleratorservices'
+		extName 'acceleratorcms'
+		extName 'yacceleratorcore'
+		extName 'commercefacades'
+		extName 'acceleratorfacades'
+		extName 'addonsupport'
+		extName 'acceleratorstorefrontcommons'
+		extName 'yacceleratorfacades'
+		extName 'commercesearch'
+		extName 'commercesearchhmc'
+		extName 'acceleratorwebservicesaddon'
+		extName 'yaddon'
+		extName 'yacceleratorinitialdata'
+		extName 'apparelstore'
+		extName 'yacceleratorstorefront'
+		extName 'cscockpit'
+		extName 'yacceleratorcockpits'
+		extName 'instore'
+		extName 'electronicsstore'
+		extName 'warehousingbackoffice'
+		extName 'warehousing'
+		extName 'yacceleratorordermanagement'
+		extName 'ordermanagementbackoffice'
+		extName 'platformbackoffice'
+		extName 'solrserver'
+
+
+    }
+}
+
+
+
+
+task setup << {
+
+    apply plugin: 'installer-platform-plugin'
+    apply plugin: 'installer-addon-plugin'
+
+    def thePlatform = platform(config)
+    thePlatform.setup()
+}
+
+task initialize << {
+    def thePlatform = platform(config)
+    thePlatform.build()
+    thePlatform.initialize()
+}
+
+task start << {
+    def thePlatform = platform(config)
+    thePlatform.start()
+}
+

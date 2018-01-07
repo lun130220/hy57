@@ -1,0 +1,104 @@
+
+def CATALINA_OPTS = "-Xms4096m -Xmx4096m -XX:+UseConcMarkSweepGC -XX:+UseParNewGC -XX:+AlwaysPreTouch -XX:+DisableExplicitGC -XX:+CMSIncrementalMode -XX:+CMSIncrementalPacing"
+def platformCfg = {
+
+	localProperties {
+		property 'whatever.property.you.need.for.the.platform', 'value'
+	}
+
+	extensions {
+		scanPath '${HYBRIS_BIN_DIR}/ext-integration'
+
+		/* ext-platform */
+		extensionNames 'admincockpit', 'backoffice', 'cockpit', 'hmc', 'mcc', 'platformhmc'
+
+
+		/* ext-commerce */
+		extensionNames 'btg', 'btgcockpit', 'commercesearch', 'commercesearchhmc',
+				'commerceservices', 'basecommerce', 'payment', 'promotions', 'voucher', 'customerreview',
+				'ticketsystem', 'solrfacetsearch', 'solrfacetsearchhmc', 'b2bcommerce', 'b2bapprovalprocess',
+				'b2badmincockpit', 'oci', 'wishlist', 'commercefacades'
+
+		/* this loads the datahub platform extensions */
+		extensionNames  'datahubadapter', 'datahubbackoffice'
+	}
+}
+
+def datahubServerId = 'datahub-tomcat'
+def datahubCfg = {
+	libraries {
+		propertyFile "local.properties", {
+
+			property 'datahub.extension.exportURL', 'http://localhost:9001/datahubadapter'
+			property 'datahub.extension.userName', 'admin'
+			property 'datahub.extension.password', 'nimda'
+
+			property 'datahub.encryption.key.path', 'encryption-key.txt'
+		}
+	}
+
+	webappDir platformHome + "/../ext-integration/datahub/web-app"
+
+	ports {
+		http 8080
+		ssl 9793
+	}
+}
+
+task setupPlatform << {
+	apply plugin: 'installer-platform-plugin'
+
+	def thePlatform = platformFactory.createPlatform platformCfg
+	thePlatform.setup()
+}
+
+task setupDataHub << {
+	apply plugin: 'installer-platform-plugin'
+	apply plugin: 'installer-datahub-plugin'
+
+	datahub(datahubServerId).setup datahubCfg
+}
+
+task setup(dependsOn: [setupPlatform, setupDataHub])
+
+task initialize << {
+	apply plugin: 'installer-platform-plugin'
+
+	def thePlatform = platformFactory.createPlatform platformCfg
+
+	thePlatform.build()
+	thePlatform.initialize()
+}
+
+task startPlatform << {
+	apply plugin: 'installer-platform-plugin'
+
+	def thePlatform = platformFactory.createPlatform platformCfg
+	thePlatform.startInBackground()
+}
+
+task startDataHub << {
+	apply plugin: 'installer-platform-plugin'
+	apply plugin: 'installer-datahub-plugin'
+
+	datahub(datahubServerId).start CATALINA_OPTS
+}
+
+task start(dependsOn: [startPlatform, startDataHub])
+
+task stopPlatform << {
+	apply plugin: 'installer-platform-plugin'
+
+	def thePlatform = platformFactory.createPlatform platformCfg
+	thePlatform.stopInBackground()
+}
+
+task stopDataHub << {
+	apply plugin: 'installer-platform-plugin'
+	apply plugin: 'installer-datahub-plugin'
+
+	datahub(datahubServerId).stop()
+}
+
+task stop(dependsOn: [stopPlatform, stopDataHub])
+

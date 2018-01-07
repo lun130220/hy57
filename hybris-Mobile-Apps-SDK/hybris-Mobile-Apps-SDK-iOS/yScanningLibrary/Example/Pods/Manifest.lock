@@ -1,0 +1,14 @@
+PODS:
+  - yScanningLibrary (5.6)
+
+DEPENDENCIES:
+  - yScanningLibrary (from `../`)
+
+EXTERNAL SOURCES:
+  yScanningLibrary:
+    :path: ../
+
+SPEC CHECKSUMS:
+  yScanningLibrary: ff7d5e069170d7fecc59010a5a02b44378685548
+
+COCOAPODS: 0.36.0

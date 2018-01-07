@@ -1,0 +1,121 @@
+apply plugin: 'installer-platform-plugin'
+apply plugin: 'installer-addon-plugin'
+apply plugin: 'installer-coreplus-plugin'
+
+def pl = platformFactory.createPlatform()
+
+task setup << {
+	pl.extensions {
+		extensionNames (
+			'acceleratorcms',
+			'addonsupport',
+			'b2ctelcocheckoutaddon',
+			'b2ctelcocockpits',
+			'b2ctelcostore',
+			'b2ctelcostorefront',
+			'cissubscription',
+			'commercesearchbackoffice',
+			'commerceservicesbackoffice',
+			'emsclient',
+			'emsui',
+			'entitlementstorefront',
+			'mcc',
+			'solrfacetsearchbackoffice',
+			'solrserver',
+			'subscriptionstorefront',
+			'subscriptionatddtests',
+			'subscriptionserviceshmc',
+			'subscriptionbackoffice',
+			'yacceleratorstorefront',
+			'yacceleratorcockpits',
+			'yacceleratorfulfilmentprocess',
+			'yacceleratorcore',
+			'ycommercewebservices'
+		)
+		webApp {
+			contextRoot 'entitlements-web'
+			path '${HYBRIS_BIN_DIR}/../../hybris-ems/binary/entitlements-web.war'
+		}
+		webApp {
+			contextRoot 'hybris-cis-mock-subscription-web'
+			path '${HYBRIS_BIN_DIR}/../../hybris-sbg/binary/hybris-cis-mock-subscription-web.war'
+		}
+	}
+
+	pl.localProperties {
+		properties (
+			"subscription.client.endpoint.uri": "http://localhost:9001/hybris-cis-mock-subscription-web/sub/cisSubscriptionMock",
+			"persistence.engine.mongodb.databaseName": "entitlements",
+			"cis.client.subscription.mock": "false",
+			"kernel.events.cluster.jgroups.channel": "disable"
+		)
+	}
+
+	pl.setup()
+
+	pl.project.addons {
+		names "b2ctelcostorefront,b2ctelcocheckoutaddon"
+		b2c "yacceleratorstorefront"
+		platform pl
+	}
+	pl.project.addons {
+		names "entitlementstorefront"
+		b2c "yacceleratorstorefront"
+		platform pl
+	}
+        pl.project.addons {
+                names 'subscriptionstorefront'
+                b2c 'yacceleratorstorefront'
+                platform pl
+        }
+ 	copy {
+ 		from "${installerHome}/recipes/b2c_telco_full/logback.xml"
+ 		into "${suiteHome}/hybris/bin/platform/tomcat/lib"
+ 	}
+	copy {
+ 		from "${installerHome}/recipes/b2c_telco_full/sbg_properties"
+ 		into "${suiteHome}/hybris/bin/platform/tomcat/lib"
+		exclude "**/*.txt"
+ 	}
+}
+
+def corePlusInitApp = hybrisCoreplusFactory.createCoreplusInitApp()
+
+ext {
+	host = "http://localhost:9001"
+	contextRoot = "entitlements-web"
+	tenant = "single"
+	config = {
+		localProperties {
+			properties(
+				'tomcat.generaloptions': '-Xmx3096M',
+				'standalone.javaoptions': '-Xmx3040M'
+			)
+		}
+	}
+}
+
+
+task initialize << {
+	pl.build()
+	pl.initialize()
+	pl.startInBackground()
+
+	try {
+		corePlusInitApp.initializeSystem(initializationTimeout: 60)
+		corePlusInitApp.initializeSchema()
+	} finally {
+		pl.stopInBackground()
+	}
+}
+
+
+task start << {
+	pl.startInBackground()
+}
+
+
+task stop << {
+	pl.stopInBackground()
+}
+
